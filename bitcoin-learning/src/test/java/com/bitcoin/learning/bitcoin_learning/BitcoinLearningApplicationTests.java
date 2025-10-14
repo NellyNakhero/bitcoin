@@ -1,0 +1,13 @@
+package com.bitcoin.learning.bitcoin_learning;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class BitcoinLearningApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
