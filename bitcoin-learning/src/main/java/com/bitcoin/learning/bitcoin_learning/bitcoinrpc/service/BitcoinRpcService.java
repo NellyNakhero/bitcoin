@@ -1,9 +1,6 @@
 package com.bitcoin.learning.bitcoin_learning.bitcoinrpc.service;
 
-import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.BlockInfo;
-import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.BlockchainInfo;
-import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.WalletDirResult;
-import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.WalletLoadResult;
+import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -105,4 +102,9 @@ public class BitcoinRpcService {
         WalletLoadResult result = callRpcMethod("loadwallet", new Object[]{walletName}, WalletLoadResult.class);
         return result.getName();
     }
+
+    public DecodedTransaction decodeRawTransaction(String hex) throws IOException {
+        return callRpcMethod("decoderawtransaction", new Object[]{hex}, DecodedTransaction.class);
+    }
+
 }

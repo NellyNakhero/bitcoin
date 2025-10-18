@@ -1,6 +1,7 @@
 package com.bitcoin.learning.bitcoin_learning.bitcoinrpc.controller;
 
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.BlockInfo;
+import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.DecodedTransaction;
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.service.BitcoinRpcService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -49,5 +50,11 @@ public class BitcoinRpcController {
     @GetMapping("/walletdir")
     public ResponseEntity<List<Map<String, Object>>> listWalletDir() throws IOException {
         return ResponseEntity.ok(bitcoinRpcService.listWalletDir());
+    }
+
+    @PostMapping("/decoderawtransaction")
+    public ResponseEntity<DecodedTransaction> decodeRawTransaction(@RequestBody Map<String, String> body) throws IOException {
+        String hex = body.get("hex");
+        return ResponseEntity.ok(bitcoinRpcService.decodeRawTransaction(hex));
     }
 }
