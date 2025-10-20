@@ -2,7 +2,10 @@ package com.bitcoin.learning.bitcoin_learning.bitcoinrpc.controller;
 
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.BlockInfo;
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.DecodedTransaction;
+import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.KeyDerivationRequest;
+import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.KeyDerivationResponse;
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.service.BitcoinRpcService;
+import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.service.KeyDerivationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,7 @@ import java.util.Map;
 @RequestMapping("/api/bitcoin")
 public class BitcoinRpcController {
     private final BitcoinRpcService bitcoinRpcService;
+    private final KeyDerivationService keyDerivationService;
 
 
     @GetMapping("/blockchain-info")
@@ -56,5 +60,10 @@ public class BitcoinRpcController {
     public ResponseEntity<DecodedTransaction> decodeRawTransaction(@RequestBody Map<String, String> body) throws IOException {
         String hex = body.get("hex");
         return ResponseEntity.ok(bitcoinRpcService.decodeRawTransaction(hex));
+    }
+
+    @PostMapping("/derive-key")
+    public ResponseEntity<KeyDerivationResponse> deriveKey(@RequestBody KeyDerivationRequest keyDerivationRequest) throws IOException {
+        return ResponseEntity.ok(keyDerivationService.deriveKeyFromDescriptor(keyDerivationRequest));
     }
 }
