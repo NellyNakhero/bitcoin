@@ -5,6 +5,7 @@ import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.DecodedTransaction;
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.KeyDerivationRequest;
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.dtos.KeyDerivationResponse;
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.service.BitcoinRpcService;
+import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.service.BlockMerkleInspector;
 import com.bitcoin.learning.bitcoin_learning.bitcoinrpc.service.KeyDerivationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class BitcoinRpcController {
     private final BitcoinRpcService bitcoinRpcService;
     private final KeyDerivationService keyDerivationService;
+    private final BlockMerkleInspector blockMerkleInspector;
 
 
     @GetMapping("/blockchain-info")
@@ -66,4 +68,13 @@ public class BitcoinRpcController {
     public ResponseEntity<KeyDerivationResponse> deriveKey(@RequestBody KeyDerivationRequest keyDerivationRequest) throws IOException {
         return ResponseEntity.ok(keyDerivationService.deriveKeyFromDescriptor(keyDerivationRequest));
     }
+
+    @GetMapping("/coomputemerkle")
+    public ResponseEntity<String> computeMerkleRootForSampleTransactions(
+            @RequestParam String blockHash) throws IOException, InterruptedException {
+        return ResponseEntity.ok(blockMerkleInspector.computeMerkleRootForSampleTransactions(blockHash));
+    }
 }
+
+//@TODO Creating a Base58Check-encoded bitcoin address from a private key
+//@TODO Vanity Address
